@@ -28,32 +28,4 @@ class ManifestRenderer {
         }
         sw
     }
-
-    private displayEntries(final Manifest manifest, OutputStream out) {
-        if (manifest.entries.isEmpty()) {
-            out.withPrintWriter {
-                println(indentString + "No entries.")
-            }
-        } else {
-            out.withPrintWriter {
-                println(indentString + "Entries (${manifest.entries.size()}):")
-                manifest.entries.each {
-                    println(indentString + "  Entry key = $it.key")
-                    it.value.each {
-                        println(indentString + "    $it.key = $it.value")
-                    }
-                }
-            }
-        }
-    }
-
-    private displayMainAttributes(Manifest manifest, OutputStream out) {
-        out.withPrintWriter {
-            println(indentString + "Main attributes (${manifest.mainAttributes.size()}):")
-            manifest.mainAttributes.each {
-                println(indentString + "  $it.key = $it.value")
-            }
-        }
-    }
-
 }
