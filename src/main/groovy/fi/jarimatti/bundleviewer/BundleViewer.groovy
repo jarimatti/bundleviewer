@@ -61,13 +61,17 @@ class BundleViewer {
 
         this.filename = filename
 
+        reload()
+
+        displayManifest()
+        displayServiceComponents()
+    }
+
+    def reload() {
         new JarFile(filename).withCloseable {
             readManifest(it)
             readServiceComponents(it)
         }
-
-        displayManifest()
-        displayServiceComponents()
     }
 
     private readManifest(JarFile jf) {
