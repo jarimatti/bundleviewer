@@ -49,7 +49,10 @@ class BundleViewer {
 
         final String filename = args[0]
 
-        new BundleViewer(filename)
+        def bv = new BundleViewer(filename)
+
+        displayManifest(bv.manifest)
+        displayServiceComponents(bv.serviceComponents)
     }
 
     static def usage() {
@@ -58,13 +61,8 @@ class BundleViewer {
     }
 
     def BundleViewer(final String filename) {
-
         this.filename = filename
-
         reload()
-
-        displayManifest()
-        displayServiceComponents()
     }
 
     def reload() {
@@ -89,11 +87,11 @@ class BundleViewer {
         manifest.mainAttributes[SERVICE_COMPONENTS].toString().split(",")
     }
 
-    private displayServiceComponents() {
-        if (serviceComponents.isEmpty()) {
+    static private displayServiceComponents(sc) {
+        if (sc.isEmpty()) {
             println("No service components.")
         } else {
-            serviceComponents.each {
+            sc.each {
                 println("Component XML = $it.key")
                 println(it.value)
             }
@@ -105,10 +103,10 @@ class BundleViewer {
         jf.getInputStream(entry).getText()
     }
 
-    private displayManifest() {
-        displayMainAttributes(manifest)
+    static private displayManifest(Manifest m) {
+        displayMainAttributes(m)
         println()
-        displayEntries(manifest)
+        displayEntries(m)
     }
 
     static private displayEntries(final Manifest manifest) {
