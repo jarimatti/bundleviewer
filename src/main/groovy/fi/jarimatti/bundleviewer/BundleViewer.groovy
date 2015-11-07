@@ -53,7 +53,11 @@ class BundleViewer {
     }
 
     private serviceComponentFilenames() {
-        manifest.mainAttributes[SERVICE_COMPONENT].split(",")
+        if (manifest.mainAttributes[SERVICE_COMPONENT]) {
+            manifest.mainAttributes[SERVICE_COMPONENT].split(",")
+        } else {
+            []
+        }
     }
 
     static private loadJarEntry(jf, fn) {
