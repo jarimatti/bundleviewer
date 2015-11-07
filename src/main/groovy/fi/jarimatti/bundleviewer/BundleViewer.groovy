@@ -24,7 +24,7 @@ class BundleViewer {
      */
     Map<String, String> serviceComponents
 
-    static SERVICE_COMPONENTS = new Attributes.Name("Service-Component")
+    static SERVICE_COMPONENT = new Attributes.Name("Service-Component")
 
     def BundleViewer(final String filename) {
         this.filename = filename
@@ -53,7 +53,7 @@ class BundleViewer {
     }
 
     private serviceComponentFilenames() {
-        manifest.mainAttributes[SERVICE_COMPONENTS].split(",")
+        manifest.mainAttributes[SERVICE_COMPONENT].split(",")
     }
 
     static private loadJarEntry(jf, fn) {
