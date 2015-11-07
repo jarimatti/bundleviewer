@@ -5,21 +5,7 @@ import java.util.jar.JarFile
 import java.util.jar.Manifest
 
 /**
- * View OSGi bundle contents.
- * <p>
- *     Shows bundle manifest.
- * </p>
- *
- * <p>
- *     Roadmap:
- *     <ul>
- *         <li>show bundle manifest
- *         <li>parse OSGi bundle information from manifest
- *         <li>show linked OSGi files parsed from manifest
- *         <li>dynamically update information if bundle changes
- *         <li>UI
- *     </ul>
- * </p>
+ * Reads and contains OSGi bundle specific data from a jar file.
  */
 class BundleViewer {
 
@@ -40,32 +26,15 @@ class BundleViewer {
 
     static SERVICE_COMPONENTS = new Attributes.Name("Service-Component")
 
-    static void main(final String[] args) {
-
-        if (args.size() == 0) {
-            usage()
-            System.exit(1)
-        }
-
-        final String filename = args[0]
-
-        def bv = new BundleViewer(filename)
-
-        displayManifest(bv.manifest)
-        displayServiceComponents(bv.serviceComponents)
-    }
-
-    static def usage() {
-        println("Usage: BundleViewer <bundle.jar>")
-        println("   Displays bundle manifest.")
-    }
-
     def BundleViewer(final String filename) {
         this.filename = filename
         reload()
     }
 
-    def reload() {
+    /**
+     * Reload the bundle data from the jar file.
+     */
+    public void reload() {
         new JarFile(filename).withCloseable {
             readManifest(it)
             readServiceComponents(it)
@@ -84,50 +53,11 @@ class BundleViewer {
     }
 
     private serviceComponentFilenames() {
-        manifest.mainAttributes[SERVICE_COMPONENTS].toString().split(",")
-    }
-
-    static private displayServiceComponents(sc) {
-        if (sc.isEmpty()) {
-            println("No service components.")
-        } else {
-            sc.each {
-                println("Component XML = $it.key")
-                println(it.value)
-            }
-        }
+        manifest.mainAttributes[SERVICE_COMPONENTS].split(",")
     }
 
     static private loadJarEntry(jf, fn) {
         def entry = jf.getJarEntry(fn)
         jf.getInputStream(entry).getText()
     }
-
-    static private displayManifest(Manifest m) {
-        displayMainAttributes(m)
-        println()
-        displayEntries(m)
-    }
-
-    static private displayEntries(final Manifest manifest) {
-        if (manifest.entries.isEmpty()) {
-            println("Entries: No entries.")
-        } else {
-            println("Entries (${manifest.entries.size()}):")
-            manifest.entries.each {
-                println("  Entry key = $it.key")
-                it.value.each {
-                    println("    $it.key = $it.value")
-                }
-            }
-        }
-    }
-
-    static private displayMainAttributes(Manifest manifest) {
-        println("Main attributes (${manifest.mainAttributes.size()}):")
-        manifest.mainAttributes.each {
-            println("  $it.key = $it.value")
-        }
-    }
-
 }
