@@ -15,7 +15,7 @@ class BundleViewerCmd {
         bundleViewer = new BundleViewer(filename)
     }
 
-    def launch() {
+    def execute() {
 
         def renderer = new ManifestRenderer(2)
 

@@ -1,9 +1,10 @@
 package fi.jarimatti.bundleviewer
 
 import fi.jarimatti.bundleviewer.gui.GUI
+import javafx.application.Application
 
 /**
- * Created by jarimatti on 7.11.2015.
+ * Launch GUI or command line application based on switches.
  */
 class Launcher {
 
@@ -25,11 +26,9 @@ class Launcher {
         def filename = options.arguments().get(0)
 
         if (options.g) {
-            def gui = new GUI(filename)
-            gui.launch()
+            Application.launch(GUI.class, filename)
         } else {
-            def cmd = new BundleViewerCmd(filename)
-            cmd.launch()
+            new BundleViewerCmd(filename).execute()
         }
     }
 

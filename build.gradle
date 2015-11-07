@@ -21,7 +21,7 @@ dependencies {
 
 run {
     // Used for manual testing on local system.
-    //args "-g"
+    args "-g"
     args "build/libs/${project.name}-${version}.jar"
 
 }
