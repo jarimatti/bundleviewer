@@ -7,7 +7,7 @@ import java.util.jar.Manifest
  */
 class BundleViewerCmd {
 
-    static void main(final String[] args) {
+    public static void main(final String[] args) {
         if (args.size() == 0) {
             usage()
             System.exit(1)
@@ -21,7 +21,7 @@ class BundleViewerCmd {
         displayServiceComponents(bv.serviceComponents)
     }
 
-    static def usage() {
+    static usage() {
         println("Usage: BundleViewer <bundle.jar>")
         println("   Displays bundle manifest.")
     }
