@@ -10,9 +10,9 @@ import java.util.jar.Manifest
 class BundleViewer {
 
     /**
-     * The bundle jar file name.
+     * The bundle jar file.
      */
-    String filename
+    File file
 
     /**
      * Copy of the manifest in the loaded file.
@@ -27,7 +27,11 @@ class BundleViewer {
     static SERVICE_COMPONENT = new Attributes.Name("Service-Component")
 
     def BundleViewer(final String filename) {
-        this.filename = filename
+        this(new File(filename))
+    }
+
+    def BundleViewer(final File file) {
+        this.file = file
         reload()
     }
 
@@ -35,7 +39,7 @@ class BundleViewer {
      * Reload the bundle data from the jar file.
      */
     public void reload() {
-        new JarFile(filename).withCloseable {
+        new JarFile(file).withCloseable {
             readManifest(it)
             readServiceComponents(it)
         }
@@ -52,15 +56,15 @@ class BundleViewer {
         }
     }
 
-    private serviceComponentFilenames() {
+    private List<String> serviceComponentFilenames() {
         if (manifest.mainAttributes[SERVICE_COMPONENT]) {
-            manifest.mainAttributes[SERVICE_COMPONENT].split(",")
+            manifest.mainAttributes[SERVICE_COMPONENT].toString().split(",")
         } else {
             []
         }
     }
 
-    static private loadJarEntry(jf, fn) {
+    static private String loadJarEntry(jf, fn) {
         def entry = jf.getJarEntry(fn)
         jf.getInputStream(entry).getText()
     }

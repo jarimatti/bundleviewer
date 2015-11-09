@@ -2,17 +2,15 @@ package fi.jarimatti.bundleviewer
 
 import fi.jarimatti.bundleviewer.render.ManifestRenderer
 
-import java.util.jar.Manifest
-
 /**
  * Command line program to view bundle contents.
  */
 class BundleViewerCmd {
 
-    def bundleViewer
+    BundleViewer bundleViewer
 
-    BundleViewerCmd(String filename) {
-        bundleViewer = new BundleViewer(filename)
+    BundleViewerCmd(String file) {
+        bundleViewer = new BundleViewer(file)
     }
 
     def execute() {
